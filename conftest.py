@@ -14,7 +14,7 @@ def existing_user():
         "password": "password123"
     }
 
-@pytest.fixture(scope="function")  # Changed to function scope to get fresh token for each test
+@pytest.fixture(scope="function")
 def auth_token(base_url, existing_user):
     # Get fresh auth token
     response = requests.post(f"{base_url}/auth/login", json={
@@ -27,7 +27,7 @@ def auth_token(base_url, existing_user):
 @pytest.fixture(scope="function")
 def headers(auth_token):
     return {
-        "Authorization": auth_token  # Removed Bearer prefix completely
+        "Authorization": auth_token
     }
 
 @pytest.fixture(scope="function")
