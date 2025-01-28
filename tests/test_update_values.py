@@ -1,5 +1,5 @@
 import requests
-from data import BASE_URL
+from data import BASE_URL, AUTH_REQUIRED
 
 def test_update_user_with_auth(base_url, headers):
     response = requests.patch(f"{base_url}/auth/user", headers=headers, json={
@@ -13,4 +13,4 @@ def test_update_user_without_auth(base_url):
         "name": "UpdatedName"
     })
     assert response.status_code == 401
-    assert response.json()["message"] == "You should be authorised"
+    assert response.json()["message"] == AUTH_REQUIRED

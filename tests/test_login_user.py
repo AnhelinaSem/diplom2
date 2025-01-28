@@ -1,5 +1,6 @@
 import requests
 from data import BASE_URL
+from data import EMAIL_PASSWORD_INCORRECT
 
 def test_login_existing_user(base_url):
     response = requests.post(f"{base_url}/auth/login", json={
@@ -15,4 +16,4 @@ def test_login_invalid_credentials(base_url):
         "password": "wrongpassword"
     })
     assert response.status_code == 401
-    assert response.json()["message"] == "email or password are incorrect"
+    assert response.json()["message"] == EMAIL_PASSWORD_INCORRECT

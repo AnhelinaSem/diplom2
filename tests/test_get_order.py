@@ -1,5 +1,5 @@
 import requests
-from data import BASE_URL
+from data import BASE_URL, AUTH_REQUIRED
 
 def test_get_orders_with_auth(base_url, headers):
     response = requests.get(f"{base_url}/orders", headers=headers)
@@ -13,4 +13,4 @@ def test_get_orders_without_auth(base_url):
     assert response.status_code == 401
     assert "application/json" in response.headers["Content-Type"]
     json_response = response.json()
-    assert json_response["message"] == "You should be authorised"
+    assert json_response["message"] == AUTH_REQUIRED

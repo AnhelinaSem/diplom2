@@ -1,5 +1,6 @@
 import requests
 from data import BASE_URL
+from data import INCORRECT_ID_MSG, INGREDIENT_IDS_REQUIRED
 
 def test_get_ingredients(base_url):
     response = requests.get(f"{base_url}/ingredients", headers={"Accept": "application/json"})
@@ -26,14 +27,14 @@ def test_create_order_without_auth(base_url):
     assert response.status_code == 400
     assert "application/json" in response.headers["Content-Type"]
     json_response = response.json()
-    assert json_response["message"] == "One or more ids provided are incorrect"
+    assert json_response["message"] == INCORRECT_ID_MSG
 
 def test_create_order_without_ingredients(base_url, headers):
     response = requests.post(f"{base_url}/orders", headers=headers, json={})
     assert response.status_code == 400
     assert "application/json" in response.headers["Content-Type"]
     json_response = response.json()
-    assert json_response["message"] == "Ingredient ids must be provided"
+    assert json_response["message"] == INGREDIENT_IDS_REQUIRED
 
 def test_create_order_invalid_ingredient_hash(base_url, headers):
     response = requests.post(f"{base_url}/orders", headers=headers, json={
@@ -42,4 +43,4 @@ def test_create_order_invalid_ingredient_hash(base_url, headers):
     assert response.status_code == 400
     assert "application/json" in response.headers["Content-Type"]
     json_response = response.json()
-    assert json_response["message"] == "One or more ids provided are incorrect"
+    assert json_response["message"] == INCORRECT_ID_MSG

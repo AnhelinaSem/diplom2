@@ -48,3 +48,16 @@ def user_payload():
         "password": password,
         "name": first_name
     }
+@pytest.fixture(scope="function")
+def create_user(base_url, user_payload):
+    # Создание пользователя
+    response = requests.post(f"{base_url}/auth/register", json=user_payload)
+    assert response.status_code == 200
+    yield user_payload
+
+    auth_token = requests.post(f"{base_url}/auth/login", json={
+        "email": user_payload["email"],
+        "password": user_payload["password"]
+    }).json()["accessToken"]
+    headers = {"Authorization": f"Bearer {auth_token}"}
+    requests.delete(f"{base_url}/auth/user", headers=headers)
